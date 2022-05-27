@@ -1,3 +1,5 @@
+import dataclasses as dc
+
 import pandas as pd
 
 
@@ -53,3 +55,37 @@ def _pdgroupby_find_max_consec_nulls(series: pd.Series) -> int:
     only_null_consecutive_groups = series * length_of_each_consecutive_group
     # find the highest count of any null group
     return only_null_consecutive_groups.max()
+
+
+@dc.dataclass
+class NullTracker:
+    """Helper class to track consecutive nulls in a pandas series"""
+
+    consecutive_count: int = 0
+    max_consec_nulls: int = 0
+
+    def next_two(self, inseries: pd.Series):
+        """Wrapper to extract two values from pd.Series of len 2"""
+        x1, x2 = inseries
+        self._next_two(x1=x1, x2=x2)
+        return self.max_consec_nulls
+
+    def _next_two(self, x1: bool, x2: bool):
+        """Update consecutive_count and max_consec_nulls based on current and next values."""
+        if x2:  # next value is null
+            self.consecutive_count += 1
+
+        elif x1 and not x2:  # reached end of consecutive nulls
+            if self.consecutive_count > self.max_consec_nulls:
+                self.max_consec_nulls = self.consecutive_count
+            self.consecutive_count = 0
+
+
+def class_find_max_consec_nulls(series: pd.Series):
+    """Find max number of consecutive nulls in a pandas series. Series needs
+    to already be boolean using pd.isnull()"""
+    tracker = NullTracker()
+    if series.iloc[0]:
+        tracker.consecutive_count = 1
+    series.rolling(window=2, min_periods=2).apply(tracker.next_two)
+    return tracker.max_consec_nulls
