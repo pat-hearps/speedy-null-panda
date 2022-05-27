@@ -10,6 +10,7 @@ from src.algorithms import (
     pdgroupby_find_max_consec_nulls,
     _pdgroupby_find_max_consec_nulls,
     class_find_max_consec_nulls,
+    dumb_find_max_consec_nulls,
 )
 
 DATA = [
@@ -28,6 +29,7 @@ functions = [
     (pdgroupby_find_max_consec_nulls, True),
     (_pdgroupby_find_max_consec_nulls, True),
     (class_find_max_consec_nulls, True),
+    (dumb_find_max_consec_nulls, True),
 ]
 
 
