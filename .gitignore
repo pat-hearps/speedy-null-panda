@@ -1,0 +1,37 @@
+# local working
+.ipynb_checkpoints
+__pycache__
+*_cache
+.vscode
+.amlignore
+.amlignore.amltmp
+.env
+
+# virtual envs
+.venv
+.venv*
+
+Pipfile
+Pipfile.lock
+
+# folders
+/data
+/spikes/notebooks
+/figures
+
+# filetypes
+*.xlsx
+*.xls
+*.csv
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+*.html
