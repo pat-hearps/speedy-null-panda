@@ -6,7 +6,16 @@ DUMMY = pd.Series(1)
 
 def index_find_max_consec_nulls(series: pd.Series) -> int:
     """Series should be raw data with nulls, without pd.isnull() applied"""
-    return int(pd.Series(series.dropna().index).diff().max())
+    if series.notnull().all():
+        answer = 0
+    elif series.isnull().all():
+        answer = len(series)
+    else:
+        series = pd.concat([DUMMY, series, DUMMY])
+        answer = int(
+            (pd.Series(series.reset_index(drop=True).dropna().index).diff() - 1).max()
+        )
+    return answer
 
 
 def _index_find_max_consec_nulls(series: pd.Series) -> int:

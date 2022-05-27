@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.algorithms import _index_find_max_consec_nulls
+from src.algorithms import index_find_max_consec_nulls, _index_find_max_consec_nulls
 
 DATA = [
     [1, 2, 3, 4, 5],
@@ -22,7 +22,7 @@ def df_test(data: np.array = DATA) -> pd.DataFrame:
     return pd.DataFrame(data)
 
 
-functions = [_index_find_max_consec_nulls]
+functions = [index_find_max_consec_nulls, _index_find_max_consec_nulls]
 
 
 @pytest.mark.parametrize("data, expected", zip(DATA, EXPECTED))
