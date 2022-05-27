@@ -1,5 +1,6 @@
 import dataclasses as dc
 
+import numba
 import numpy as np
 import pandas as pd
 
@@ -102,6 +103,32 @@ def dumb_find_max_consec_nulls(series: pd.Series) -> int:
 
 def _dumb_find_max_consec_nulls(array: np.array) -> int:
     """Find highest count of consecutive nulls in a 1D numpy array of bools."""
+    consec_count = int(array[0])  # will start from 1 if first value is null
+    max_consec_count = 0
+    for x1, x2 in zip(array[:-1], array[1:]):
+        if x2:  # next value is null
+            consec_count += 1
+
+        elif x1 and not x2:  # end of consecutive nulls
+            if consec_count > max_consec_count:
+                max_consec_count = consec_count
+            consec_count = 0
+    # if last value was null, we didn't get to update max_consec_count
+    return max(consec_count, max_consec_count)
+
+
+def numba_find_max_consec_nulls(series: pd.Series) -> int:
+    """Helper func to reformat into numpy array for numba-optimised function.
+    Inseries needs to be boolean using pd.isnull()
+    """
+    return _numba_find_max_consec_nulls(series.to_numpy())
+
+
+@numba.jit(numba.uint8(numba.boolean[:]), nopython=True)
+def _numba_find_max_consec_nulls(array: np.array) -> int:
+    """Find highest count of consecutive nulls in a 1D numpy array of bools.
+    Optimised with Numba
+    """
     consec_count = int(array[0])  # will start from 1 if first value is null
     max_consec_count = 0
     for x1, x2 in zip(array[:-1], array[1:]):
