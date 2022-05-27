@@ -95,16 +95,11 @@ def class_find_max_consec_nulls(series: pd.Series):
 
 
 def dumb_find_max_consec_nulls(series: pd.Series) -> int:
-    """Helper func to reformat into numpy array for numba-optimised function.
-    Inseries needs to be boolean using pd.isnull()
-    """
-    return _dumb_find_max_consec_nulls(series.to_numpy())
-
-
-def _dumb_find_max_consec_nulls(array: np.array) -> int:
-    """Find highest count of consecutive nulls in a 1D numpy array of bools."""
-    consec_count = int(array[0])  # will start from 1 if first value is null
+    """Inseries needs to be boolean using pd.isnull()"""
+    array = series.values  # faster to just use underlying array
+    consec_count = int(series[0])  # will start from 1 if first value is null
     max_consec_count = 0
+
     for x1, x2 in zip(array[:-1], array[1:]):
         if x2:  # next value is null
             consec_count += 1
