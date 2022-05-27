@@ -85,7 +85,8 @@ def class_find_max_consec_nulls(series: pd.Series):
     """Find max number of consecutive nulls in a pandas series. Series needs
     to already be boolean using pd.isnull()"""
     tracker = NullTracker()
-    if series.iloc[0]:
+    if series.iloc[0]:  # if first value is null, need to manually add it
         tracker.consecutive_count = 1
     series.rolling(window=2, min_periods=2).apply(tracker.next_two)
-    return tracker.max_consec_nulls
+    # if last value was null, max_consec_nulls would not have been updated
+    return max(tracker.max_consec_nulls, tracker.consecutive_count)
