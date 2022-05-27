@@ -5,3 +5,4 @@ jupyterlab
 numba
 numpy
 pandas
+pytest
