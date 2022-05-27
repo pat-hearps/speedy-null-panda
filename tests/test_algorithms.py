@@ -10,7 +10,7 @@ from src.algorithms import (
     pdgroupby_find_max_consec_nulls,
     _pdgroupby_find_max_consec_nulls,
     class_find_max_consec_nulls,
-    dumb_find_max_consec_nulls,
+    basic_find_max_consec_nulls,
     numba_find_max_consec_nulls,
 )
 
@@ -30,7 +30,7 @@ functions = [
     (pdgroupby_find_max_consec_nulls, True),
     (_pdgroupby_find_max_consec_nulls, True),
     (class_find_max_consec_nulls, True),
-    (dumb_find_max_consec_nulls, True),
+    (basic_find_max_consec_nulls, True),
     (numba_find_max_consec_nulls, True),
 ]
 

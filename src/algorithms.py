@@ -94,7 +94,7 @@ def class_find_max_consec_nulls(series: pd.Series):
     return max(tracker.max_consec_nulls, tracker.consecutive_count)
 
 
-def dumb_find_max_consec_nulls(series: pd.Series) -> int:
+def basic_find_max_consec_nulls(series: pd.Series) -> int:
     """Inseries needs to be boolean using pd.isnull()"""
     array = series.values  # faster to just use underlying array
     consec_count = int(series[0])  # will start from 1 if first value is null
