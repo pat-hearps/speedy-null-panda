@@ -4,7 +4,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.algorithms import index_find_max_consec_nulls, _index_find_max_consec_nulls
+from src.algorithms import (
+    index_find_max_consec_nulls,
+    _index_find_max_consec_nulls,
+    pdgroupby_find_max_consec_nulls,
+)
 
 DATA = [
     [1, 2, 3, 4, 5],
@@ -16,14 +20,23 @@ DATA = [
 ]
 EXPECTED = [0, 1, 2, 3, 3, 5]
 
-functions = [index_find_max_consec_nulls, _index_find_max_consec_nulls]
+functions = [
+    (index_find_max_consec_nulls, False),
+    (_index_find_max_consec_nulls, False),
+    (pdgroupby_find_max_consec_nulls, True),
+]
 
 
 @pytest.mark.parametrize("data, expected", zip(DATA, EXPECTED))
-@pytest.mark.parametrize("func", functions)
-def test_algorithm(data, expected, func: Callable) -> None:
+@pytest.mark.parametrize("func, pre_null", functions)
+def test_algorithm(data, expected, func: Callable, pre_null: bool) -> None:
     """Test algorithm function, one row are a time"""
     print("data=", data)
-    result = func(pd.Series(data))
+    if pre_null:
+        series = pd.Series(data).isnull()
+    else:
+        series = pd.Series(data)
+
+    result = func(series)
     print(f"result= {result}, expected= {expected}")
     assert result == expected

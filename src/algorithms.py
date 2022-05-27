@@ -34,3 +34,8 @@ def _index_find_max_consec_nulls(series: pd.Series) -> int:
         largest_null_gap = int(size_of_null_gaps.max())
         answer = largest_null_gap
     return answer
+
+
+def pdgroupby_find_max_consec_nulls(series: pd.Series) -> int:
+    """Series should have had pd.isnull() pre-applied"""
+    return (series * (series.groupby((series != series.shift(1)).cumsum()).cumcount() + 1)).max()
