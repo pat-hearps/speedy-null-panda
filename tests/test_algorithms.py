@@ -16,12 +16,6 @@ DATA = [
 ]
 EXPECTED = [0, 1, 2, 3, 3, 5]
 
-
-@pytest.fixture()
-def df_test(data: np.array = DATA) -> pd.DataFrame:
-    return pd.DataFrame(data)
-
-
 functions = [index_find_max_consec_nulls, _index_find_max_consec_nulls]
 
 
