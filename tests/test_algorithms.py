@@ -29,7 +29,7 @@ functions = [_index_find_max_consec_nulls]
 @pytest.mark.parametrize("func", functions)
 def test_algorithm(data, expected, func: Callable) -> None:
     """Test algorithm function, one row are a time"""
-    print(data, expected)
+    print("data=", data)
     result = func(pd.Series(data))
-    print(result)
+    print(f"result= {result}, expected= {expected}")
     assert result == expected
