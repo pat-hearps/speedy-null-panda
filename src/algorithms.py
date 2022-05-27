@@ -13,6 +13,8 @@ def _index_find_max_consec_nulls(series: pd.Series) -> int:
     elif series.isnull().all():
         answer = len(series)
     else:
+        dummy = pd.Series(1)
+        series = pd.concat([dummy, series, dummy])
         with_sequential_index = series.reset_index(drop=True)
         only_non_null_indices = with_sequential_index.dropna().index
         series_non_null_indices = pd.Series(only_non_null_indices)
