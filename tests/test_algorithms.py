@@ -11,10 +11,10 @@ DATA = [
     [1, np.NaN, 3, 4, 5],
     [1, np.NaN, 3, np.NaN, np.NaN],
     [np.NaN, np.NaN, np.NaN, 4, 5],
-    [np.NaN, np.NaN, 3, np.NaN, np.NaN],
+    [np.NaN, 2, np.NaN, np.NaN, np.NaN],
     [np.NaN, np.NaN, np.NaN, np.NaN, np.NaN],
 ]
-EXPECTED = [0, 1, 2, 3, 2, 5]
+EXPECTED = [0, 1, 2, 3, 3, 5]
 
 
 @pytest.fixture()
