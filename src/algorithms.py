@@ -36,7 +36,7 @@ def _index_find_max_consec_nulls(series: pd.Series) -> int:
 
 def pdgroupby_find_max_consec_nulls(series: pd.Series) -> int:
     """Series should have had pd.isnull() pre-applied"""
-    return series * (series.groupby((series != series.shift(1)).cumsum()).cumcount() + 1).max()
+    return (series * (series.groupby((series != series.shift(1)).cumsum()).cumcount() + 1)).max()
 
 
 def _pdgroupby_find_max_consec_nulls(series: pd.Series) -> int:
